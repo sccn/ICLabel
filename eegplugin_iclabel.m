@@ -1,6 +1,8 @@
 function vers = eegplugin_iclabel( fig, try_strings, catch_strings )
-%EEGLABPLUGIN_ICLABEL Summary of this function goes here
-%   Detailed explanation goes here
+%EEGLABPLUGIN_ICLABEL EEGLAB plugin for EEG IC labeling
+%   Label independent components using ICLabel. Go to
+%   labeling.ucsd.edu/tutorial/about for more information. This is a beta
+%   version and results may change in the near future.
 vers = 'ICLabel0.1';
 if nargin < 3
     error('eegplugin_iclabel requires 3 arguments');

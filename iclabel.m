@@ -1,4 +1,8 @@
 function EEG = iclabel(EEG)
+%ICLABEL Function for EEG IC labeling
+%   Label independent components using ICLabel. Go to
+%   labeling.ucsd.edu/tutorial/about for more information. This is a beta
+%   version and results may change in the near future.
 
 % extract features
 disp 'ICLabel: extracting features...'
