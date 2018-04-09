@@ -14,7 +14,7 @@ function vers = eegplugin_iclabel( fig, try_strings, catch_strings )
 %       EEG.etc.ic_classifications.ICLabel.classifications(7, 3)
 %   since EEG.etc.ic_classifications.ICLabel.classes{3} is "eye"
 
-vers = 'ICLabel0.1';
+vers = 'ICLabel0.2';
 if nargin < 3
     error('eegplugin_iclabel requires 3 arguments');
 end
