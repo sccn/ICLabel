@@ -1,8 +1,9 @@
 function EEG = iclabel(EEG)
 %ICLABEL Function for EEG IC labeling
-%   Label independent components using ICLabel. Go to
-%   labeling.ucsd.edu/tutorial/about for more information. This is a beta
-%   version and results may change in the near future.
+%   Label independent components using ICLabel.  Go to 
+%   https://sccn.ucsd.edu/wiki/ICLabel for a tutorial on this plug-in. Go 
+%   to labeling.ucsd.edu/tutorial/about for more information. This is a 
+%   beta version and results may change in the near future.
 %
 %   Results are stored in EEG.etc.ic_classifications.ICLabel. The matrix of
 %   label vectors is stored under "classifications" and the cell array of
