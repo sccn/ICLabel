@@ -5,7 +5,8 @@ function features = ICL_feature_extractor(EEG)
 ncomp = size(EEG.icawinv, 2);
 
 % check for ica
-assert(isfield(EEG, 'icawinv'), 'You must have an ICA decomposition to use ICLabel')
+assert(isfield(EEG, 'icawinv') && ~isempty(EEG.icawinv), ...
+    'You must have an ICA decomposition to use ICLabel')
 
 % calculate ica activations if missing
 if isempty(EEG.icaact)

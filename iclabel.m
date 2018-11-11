@@ -15,6 +15,10 @@ function EEG = iclabel(EEG)
 %       EEG.etc.ic_classifications.ICLabel.classifications(7, 3)
 %   since EEG.etc.ic_classifications.ICLabel.classes{3} is "eye"
 
+% check for ica
+assert(isfield(EEG, 'icawinv') && ~isempty(EEG.icawinv), ...
+    'You must have an ICA decomposition to use ICLabel')
+
 % extract features
 disp 'ICLabel: extracting features...'
 features = ICL_feature_extractor(EEG);
