@@ -40,7 +40,7 @@ catch e_run
               'If you solve this issue without help, please consider emailing Luca as the ' ...
               'compiled files will likely be useful to other EEGLAB users with similar ' ...
               'computers as yourself.'])
-        warn('ICLabel: defaulting to uncompiled matlab code (about 80x slower)')
+        warning('ICLabel: defaulting to uncompiled matlab code (about 80x slower)')
         net = uncompiled_network_evaluation(net, input);
     end
 end
