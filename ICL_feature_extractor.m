@@ -1,10 +1,7 @@
 % extract features for the ICLabel Classifier
 
-function features = ICL_feature_extractor(EEG, psd_percent)
+function features = ICL_feature_extractor(EEG)
 %% check inputs
-if ~exist('psd_percent', 'var') || isempty(psd_percent)
-    psd_percent = 100;
-end
 ncomp = size(EEG.icawinv, 2);
 
 % check for ica
@@ -19,8 +16,9 @@ end
 assert(isreal(EEG.icaact), 'Your ICA decomposition must be real to use ICLabel')
 
 % assuming chanlocs are correct
-% assuming reference as desired (* maybe enfore CAR? could cause issue with ica)
-% assume dipfit already present
+if ~strcmp(EEG.ref, 'averef')
+    [~, EEG] = evalc('pop_reref(EEG, []);');
+end
 
 %% calc topo
 topo = zeros(32, 32, 1, ncomp);

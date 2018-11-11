@@ -17,7 +17,7 @@ function EEG = iclabel(EEG)
 
 % extract features
 disp 'ICLabel: extracting features...'
-features = ICL_feature_extractor(EEG, 15);
+features = ICL_feature_extractor(EEG);
 
 % run ICL
 disp 'ICLabel: calculating labels...'

@@ -1,10 +1,7 @@
 function labels = run_ICL(images, psds)
 
-% get path information
-pluginpath = fileparts(which('pop_iclabel'));
-
-% activate matconvnet
-run(fullfile(pluginpath, 'matconvnet', 'matlab', 'vl_setupnn'))
+% get path information and activate matconvnet
+pluginpath = activate_matconvnet();
 
 % load network
 netStruct = load(fullfile(pluginpath, 'netICL.mat'));
