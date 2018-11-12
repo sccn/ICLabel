@@ -11,7 +11,7 @@ end
 % setup constants
 ncomp = size(EEG.icaweights, 1);
 n_points = min(EEG.pnts, EEG.srate);
-window = hamming(n_points)';
+window = windows('hamming', n_points, 0.54)';
 cutoff = floor(EEG.pnts / n_points) * n_points;
 index = bsxfun(@plus, ceil(0:n_points / 2:cutoff - n_points), (1:n_points)');
 
