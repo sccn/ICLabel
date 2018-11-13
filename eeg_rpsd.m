@@ -36,11 +36,11 @@ for it = 1:ncomp
         temp(:, end, :) = temp(:, end, :) / 2; end
 
     % calculate outputs
-    psdmed(it, :) = db(median(temp, 3));
+    psdmed(it, :) = 20 * log10(median(temp, 3));
     if nargout >= 2
-        psdvar(it, :) = db(var(temp, [], 3), 'power');
+        psdvar(it, :) = 10 * log10(var(temp, [], 3));
         if nargout >= 3
-            psdkurt(it, :) = db(kurtosis(temp, [], 3)/4);
+            psdkurt(it, :) = 20 * log10(kurtosis(temp, [], 3)/4);
         end
     end
 end
