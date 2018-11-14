@@ -18,7 +18,7 @@ assert(isreal(EEG.icaact), 'Your ICA decomposition must be real to use ICLabel')
 
 % assuming chanlocs are correct
 if ~strcmp(EEG.ref, 'averef')
-    [~, EEG] = evalc('pop_reref(EEG, []);');
+    [~, EEG] = evalc('pop_reref(EEG, [], ''exclude'', setdiff(1:EEG.nbchan, EEG.icachansind));');
 end
 
 %% calc topo
