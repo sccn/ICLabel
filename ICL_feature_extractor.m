@@ -1,4 +1,5 @@
 % extract features for the ICLabel Classifier
+% if there are any issues, report them to lpionton@ucsd.edu
 
 function features = ICL_feature_extractor(EEG)
 %% check inputs

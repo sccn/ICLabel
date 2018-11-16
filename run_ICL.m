@@ -5,7 +5,11 @@ pluginpath = activate_matconvnet();
 
 % load network
 netStruct = load(fullfile(pluginpath, 'netICL.mat'));
-net = dagnn.DagNN.loadobj(netStruct);
+try
+    net = dagnn.DagNN.loadobj(netStruct);
+catch
+    net = dagnn_bc.DagNN.loadobj(netStruct);
+end
 clear netStruct;
 
 % inference
