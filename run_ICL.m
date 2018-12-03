@@ -1,10 +1,29 @@
-function labels = run_ICL(images, psds)
+function labels = run_ICL(version, images, psds, autocorrs)
+%% check inputs
+if any(strcmpi(version, {[], 'default'}))
+    version = '';
+elseif any(strcmpi(version, 'lite'))
+    version = '_lite';
+elseif any(strcmpi(version, 'beta'))
+    version = '_beta';
+else
+    error(['Invalid network version choice. '...
+           'Must be one of the following: ' ...
+           '''default'' (alternatively ''[] or  ''''), '...
+           '''lite'', or ''beta''.'])
+end
 
-% get path information and activate matconvnet
+if ~exist('autocorrs', 'var') || isempty(autocorrs)
+    flag_autocorr = false;
+else
+    flag_autocorr = true;
+end
+
+%% get path information and activate matconvnet
 pluginpath = activate_matconvnet();
 
-% load network
-netStruct = load(fullfile(pluginpath, 'netICL.mat'));
+%% load network
+netStruct = load(fullfile(pluginpath, ['netICL' version]));
 try
     net = dagnn.DagNN.loadobj(netStruct);
 catch
@@ -12,16 +31,24 @@ catch
 end
 clear netStruct;
 
-% inference
+%% format network inputs
 images = cat(4, images, -images, images(:, end:-1:1, :, :), -images(:, end:-1:1, :, :));
 psds = repmat(psds, [1 1 1 4]);
 input = {
     'in_image', single(images), ...
     'in_psdmed', single(psds)
 };
+if flag_autocorr
+    autocorrs = repmat(autocorrs, [1 1 1 4]);
+    input = [input {'in_autocorr', single(autocorrs)}];
+end
+
+%% inference
 try
+    % run with mex-files
     net.eval(input);
-catch e_run
+catch
+    % failed, try to recompile mex-files
     disp 'Failed to run ICLabel. Trying to compile MEX-files.'
     curr_path = pwd;
     cd(fileparts(which('vl_compilenn')));
@@ -33,7 +60,9 @@ catch e_run
             'share the compiled MEX-files. They will likely help other EEGLAB users ' ...
             'with similar computers as yourself.'])
         net.eval(input);
-    catch e_
+    catch
+        % could not recompile. running natively
+        % ~80x slower than using mex-files
         cd(curr_path)
         disp(['MEX-file compilation failed. Further instructions on compiling ' ...
               'the MEX-files can be found at http://www.vlfeat.org/matconvnet/install/. ' ...
@@ -46,6 +75,6 @@ catch e_run
     end
 end
 
-% extract result
+%% extract result
 labels = squeeze(net.getVar(net.getOutputs()).value)';
 labels = reshape(mean(reshape(labels', [], 4), 2), 7, [])';

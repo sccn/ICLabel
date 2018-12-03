@@ -1,13 +1,15 @@
 % extract features for the ICLabel Classifier
 % if there are any issues, report them to lpionton@ucsd.edu
 
-function features = ICL_feature_extractor(EEG)
+function features = ICL_feature_extractor(EEG, flag_autocorr)
 %% check inputs
+if ~exist('flag_autocorr', 'var') || isempty(flag_autocorr)
+    flag_autocorr = false;
+end
 ncomp = size(EEG.icawinv, 2);
 
 % check for ica
-assert(isfield(EEG, 'icawinv') && ~isempty(EEG.icawinv), ...
-    'You must have an ICA decomposition to use ICLabel')
+assert(isfield(EEG, 'icawinv'), 'You must have an ICA decomposition to use ICLabel')
 
 % calculate ica activations if missing
 if isempty(EEG.icaact)
@@ -19,7 +21,7 @@ assert(isreal(EEG.icaact), 'Your ICA decomposition must be real to use ICLabel')
 
 % assuming chanlocs are correct
 if ~strcmp(EEG.ref, 'averef')
-    [~, EEG] = evalc('pop_reref(EEG, [], ''exclude'', setdiff(1:EEG.nbchan, EEG.icachansind));');
+    [~, EEG] = evalc('pop_reref(EEG, []);');
 end
 
 %% calc topo
@@ -60,5 +62,25 @@ psd = bsxfun(@rdivide, psd, max(abs(psd), [], 2));
 % reshape and cast
 psd = single(permute(psd, [3 2 4 1]));
 
+%% calc autocorrelation?
+if flag_autocorr
+    if EEG.trials == 1
+        if EEG.pnts / EEG.srate > 5
+            autocorr = eeg_autocorr_welch(EEG);
+        else
+            autocorr = eeg_autocorr(EEG);
+        end
+    else
+        autocorr = eeg_autocorr_fftw(EEG);
+    end
+
+    % reshape and cast
+    autocorr = single(permute(autocorr, [3 2 4 1]));
+end
+
 %% format outputs
-features = {0.99 * topo, 0.99 * psd};
+if flag_autocorr
+    features = {0.99 * topo, 0.99 * psd, 0.99 * autocorr};
+else
+    features = {0.99 * topo, 0.99 * psd};
+end
