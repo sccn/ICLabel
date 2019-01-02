@@ -45,7 +45,7 @@ for it = 1:2
     EEG_temp = setup(EEG, icasphere, icaweights, 1:32);
     remove = [5 10 15 20 25 30];
     EEG_temp = pop_subcomp(EEG_temp, remove);
-    EEG_temp.icaact = eeg_getdatact(EEG_temp);
+    EEG_temp.icaact = eeg_getica(EEG_temp);
     
     test_iclabel(EEG_temp)
 
@@ -67,7 +67,7 @@ for it = 1:2
     EEG_temp = setup(EEG, icasphere_temp, icaweights_temp, icachansind);
     remove = [5 10 15];
     EEG_temp = pop_subcomp(EEG_temp, remove);
-    EEG_temp.icaact = eeg_getdatact(EEG_temp);
+    EEG_temp.icaact = eeg_getica(EEG_temp);
     
     test_iclabel(EEG_temp)
     
@@ -85,7 +85,7 @@ end
     % testing for a single run of iclabel
     function test_iclabel(EEG)
         
-    nic = size(EEG.icaact, 1);
+    nic = size(EEG.icaweights, 1);
     
     % test all three versions
     for version = {'default', 'lite', 'beta'}
@@ -101,7 +101,7 @@ end
     EEG.icaweights = icaweights;
     EEG.icawinv = pinv(EEG.icaweights * EEG.icasphere);
     EEG.icachansind = icachansind;
-    EEG.icaact = eeg_getdatact(EEG, 'channel', EEG.icachansind);
+    EEG.icaact = eeg_getica(EEG);
         
     
     
