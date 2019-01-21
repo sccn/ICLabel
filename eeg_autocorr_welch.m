@@ -39,5 +39,59 @@ else
 end
 
 % resample to 1 second at 100 samples/sec
-ac = resample(ac', 100, EEG.srate)';
+if exist('OCTAVE_VERSION', 'builtin') == 0 && exist('resample')
+    ac = resample(double(ac'), 100, EEG.srate)';
+else
+    ac = myresample(double(ac'), 100, EEG.srate)';
+end
 ac(:, 1) = [];
+
+% resample if resample is not present
+% -----------------------------------
+function tmpeeglab = myresample(data, p, q)
+
+% Default cutoff frequency (pi rad / smp)
+fc = 0.9;
+
+% Default transition band width (pi rad / smp)
+df = 0.2;
+
+% anti-alias filter
+% -----------------
+%        data         = eegfiltfft(data', 256, 0, 128*pnts/new_pnts); % Downsample from 256 to 128 times the ratio of freq.
+%                                                                      % Code was verified by Andreas Widdman March  2014
+
+%                                                                      % No! Only cutoff frequency for downsampling was confirmed.
+%                                                                      % Upsampling doesn't work and FFT filtering introduces artifacts.
+%                                                                      % Also see bug 1757. Replaced May 05, 2015, AW
+
+if p < q, nyq = p / q; else nyq = q / p; end
+fc = fc * nyq; % Anti-aliasing filter cutoff frequency
+df = df * nyq; % Anti-aliasing filter transition band width
+m = pop_firwsord('kaiser', 2, df, 0.002); % Anti-aliasing filter kernel
+b = firws(m, fc, windows('kaiser', m + 1, 5)); % Anti-aliasing filter kernel
+%         figure; freqz(b, 1, 2^14, 1000) % Debugging only! Sampling rate hardcoded as it is unknown in this context. Manually adjust for debugging!
+
+if p < q % Downsampling, anti-aliasing filter
+    data = firfiltdcpadded(b, data, 0);
+end
+
+% spline interpolation
+% --------------------
+%         X            = [1:length(data)];
+%         nbnewpoints  = length(data)*p/q;
+%         nbnewpoints2 = ceil(nbnewpoints);
+%         lastpointval = length(data)/nbnewpoints*nbnewpoints2;
+%         XX = linspace( 1, lastpointval, nbnewpoints2);
+
+% New time axis scaling, May 06, 2015, AW
+X = 0:length(data) - 1;
+newpnts  = ceil(length(data) * p / q);
+XX = (0:newpnts - 1) / (p / q);
+
+cs = spline( X, data);
+tmpeeglab = ppval(cs, XX)';
+
+if p > q % Upsampling, anti-imaging filter
+    tmpeeglab = firfiltdcpadded(b, tmpeeglab, 0);
+end
