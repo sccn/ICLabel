@@ -17,10 +17,16 @@ n_points = min(EEG.pnts, EEG.srate);
 window = windows('hamming', n_points, 0.54)';
 cutoff = floor(EEG.pnts / n_points) * n_points;
 index = bsxfun(@plus, ceil(0:n_points / 2:cutoff - n_points), (1:n_points)');
-rng(0)
+if exist('OCTAVE_VERSION', 'builtin') == 0
+    rng(0)
+else
+    rand('state', 0);
+end
 n_seg = size(index, 2) * EEG.trials;
 subset = randperm(n_seg, ceil(n_seg * pct_data / 100)); % need to improve this
-rng('shuffle')
+if exist('OCTAVE_VERSION', 'builtin') == 0
+    rng('shuffle')
+end
 
 try
     %% slightly faster but high memory use
