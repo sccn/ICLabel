@@ -6,7 +6,17 @@ function run_tests()
 EEG = pop_loadset('tests/eeglab_data.set');
 
 % calculate sphereing matrix
-icasphere = pca(EEG.data')';
+try
+    icasphere = pca(EEG.data')';
+catch
+    % BCILAB (unfortunately) shadows pca from the stats toolbox.
+    flist = which(this, '-all');
+    fpath = flist{find(strncmp(flist, matlabroot, length(matlabroot)), 1)};
+    cwd = pwd;
+    cd(fileparts(fpath))
+    icasphere = pca(EEG.data')';
+    cd(cwd)
+end
 
 % make sample ica matrix
 rng(0)
