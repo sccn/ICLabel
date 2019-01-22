@@ -17,7 +17,7 @@ n_points = min(EEG.pnts, EEG.srate);
 window = windows('hamming', n_points, 0.54)';
 cutoff = floor(EEG.pnts / n_points) * n_points;
 index = bsxfun(@plus, ceil(0:n_points / 2:cutoff - n_points), (1:n_points)');
-if exist('OCTAVE_VERSION', 'builtin') == 0
+if ~exist('OCTAVE_VERSION', 'builtin')
     rng('default')
 else
     rand('state', 0);

@@ -39,7 +39,7 @@ else
 end
 
 % resample to 1 second at 100 samples/sec
-if exist('OCTAVE_VERSION', 'builtin') == 0 && exist('resample')
+if ~exist('OCTAVE_VERSION', 'builtin') && exist('resample')
     ac = resample(double(ac'), 100, EEG.srate)';
 else
     ac = myresample(double(ac'), 100, EEG.srate)';
