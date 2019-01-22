@@ -10,7 +10,7 @@ try
     icasphere = pca(EEG.data')';
 catch
     % BCILAB (unfortunately) shadows pca from the stats toolbox.
-    flist = which(this, '-all');
+    flist = which('pca.m', '-all');
     fpath = flist{find(strncmp(flist, matlabroot, length(matlabroot)), 1)};
     cwd = pwd;
     cd(fileparts(fpath))
@@ -18,8 +18,11 @@ catch
     cd(cwd)
 end
 
-% make sample ica matrix
-rng(0)
+% make sample ica matrix and test legacy rng
+w = warning;
+warning('off', 'MATLAB:RandStream:ActivatingLegacyGenerators')
+rand('state', 11)
+warning(w);
 icaweights = randn(size(EEG.data, 1));
 icaweights = bsxfun(@rdivide, icaweights, sqrt(sum(icaweights.^2)));
 
