@@ -35,9 +35,11 @@ for it = 1:2
         EEG = pop_epoch(EEG, {'square'}, [-1 1]); 
     end
 
-    %% test complete ICA
+    %% test complete ICA with data as singles
     
     EEG_temp = setup(EEG, icasphere, icaweights, 1:32);
+    EEG_temp.data = single(EEG_temp.data);
+    EEG_temp.icaact = single(EEG_temp.icaact);
     
     test_iclabel(EEG_temp)
     

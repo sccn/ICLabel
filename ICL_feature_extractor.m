@@ -11,10 +11,11 @@ ncomp = size(EEG.icawinv, 2);
 % check for ica
 assert(isfield(EEG, 'icawinv'), 'You must have an ICA decomposition to use ICLabel')
 
-% calculate ica activations if missing
+% calculate ica activations if missing and cast to double
 if isempty(EEG.icaact)
     EEG.icaact = eeg_getica(EEG);
 end
+EEG.icaact = double(EEG.icaact);
 
 % check ica is real
 assert(isreal(EEG.icaact), 'Your ICA decomposition must be real to use ICLabel')
