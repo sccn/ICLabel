@@ -89,7 +89,7 @@ X = 0:length(data) - 1;
 newpnts  = ceil(length(data) * p / q);
 XX = (0:newpnts - 1) / (p / q);
 
-cs = spline( X, data);
+cs = spline( X, data');
 tmpeeglab = ppval(cs, XX)';
 
 if p > q % Upsampling, anti-imaging filter
