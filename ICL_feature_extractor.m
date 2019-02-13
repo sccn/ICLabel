@@ -11,6 +11,11 @@ ncomp = size(EEG.icawinv, 2);
 % check for ica
 assert(isfield(EEG, 'icawinv'), 'You must have an ICA decomposition to use ICLabel')
 
+% assuming chanlocs are correct
+if ~strcmp(EEG.ref, 'averef')
+    [~, EEG] = evalc('pop_reref(EEG, [], ''exclude'', setdiff(1:EEG.nbchan, EEG.icachansind));');
+end
+
 % calculate ica activations if missing and cast to double
 if isempty(EEG.icaact)
     EEG.icaact = eeg_getica(EEG);
@@ -19,11 +24,6 @@ EEG.icaact = double(EEG.icaact);
 
 % check ica is real
 assert(isreal(EEG.icaact), 'Your ICA decomposition must be real to use ICLabel')
-
-% assuming chanlocs are correct
-if ~strcmp(EEG.ref, 'averef')
-    [~, EEG] = evalc('pop_reref(EEG, [], ''exclude'', setdiff(1:EEG.nbchan, EEG.icachansind));');
-end
 
 %% calc topo
 topo = zeros(32, 32, 1, ncomp);
