@@ -58,9 +58,23 @@ end
 % run iclabel
 EEG = iclabel(EEG, version);
 
+% % visualize with viewprops
+% try
+%     pop_viewprops(EEG, 0);
+% catch
+%     try
+%         addpath(fullfile(fileparts(which('iclabel')), 'viewprops'))
+%         vp_com = pop_viewprops(EEG, 0);
+%     catch
+%         disp('ICLabel: Install the viewprops eeglab plugin to see IC label visualizations.')
+%     end
+% end
+%     
+
 % return for EEG.history
 if nargout == 2
-    varargout = {['EEG = pop_iclabel(EEG, ' version ');']}; end
+    varargout = {['EEG = pop_iclabel(EEG, ' version ');']};
+end
 
 
 % inputdlg3() - A comprehensive gui automatic builder. This function takes
