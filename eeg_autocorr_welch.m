@@ -73,7 +73,7 @@ b = firws(m, fc, windows('kaiser', m + 1, 5)); % Anti-aliasing filter kernel
 %         figure; freqz(b, 1, 2^14, 1000) % Debugging only! Sampling rate hardcoded as it is unknown in this context. Manually adjust for debugging!
 
 if p < q % Downsampling, anti-aliasing filter
-    data = firfiltdcpadded(b, data, 0);
+    data = fir_filterdcpadded(b, 1, data, 0);
 end
 
 % spline interpolation
@@ -93,5 +93,5 @@ cs = spline( X, data');
 tmpeeglab = ppval(cs, XX)';
 
 if p > q % Upsampling, anti-imaging filter
-    tmpeeglab = firfiltdcpadded(b, tmpeeglab, 0);
+    tmpeeglab = fir_filterdcpadded(b, 1, tmpeeglab, 0);
 end
