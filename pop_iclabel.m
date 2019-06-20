@@ -55,8 +55,10 @@ if ~exist('version', 'var')
 
 end
 
-% run iclabel
-EEG = iclabel(EEG, version);
+for iEEG = 1:length(EEG)
+    % run iclabel
+    EEG(iEEG) = iclabel(EEG(iEEG), version);
+end
 
 % % visualize with viewprops
 % try
