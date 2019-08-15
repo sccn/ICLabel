@@ -25,8 +25,13 @@ else
 end
 
 %% calc autocorrelation
-fftpow = abs(fft(segments, nfft, 2)).^2;
-ac = ifft(mean(fftpow, 3), [], 2);
+ac = zeros(ncomp, nfft);
+for it = 1:ncomp
+    fftpow = mean(abs(fft(segments(it, :, :), nfft, 2)).^2, 3);
+    ac(it, :) = ifft(fftpow, [], 2);
+end
+% fftpow = abs(fft(segments, nfft, 2)).^2;
+% ac = ifft(mean(fftpow, 3), [], 2);
 
 % normalize
 if EEG.pnts < EEG.srate
