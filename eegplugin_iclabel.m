@@ -2,7 +2,10 @@ function vers = eegplugin_iclabel( fig, try_strings, catch_strings )
 %EEGLABPLUGIN_ICLABEL EEGLAB plugin for EEG IC labeling
 %   Label independent components using ICLabel. Go to
 %   https://sccn.ucsd.edu/wiki/ICLabel for a tutorial on this plug-in. Go
-%   to labeling.ucsd.edu/tutorial/about for more information.
+%   to labeling.ucsd.edu/tutorial/about for more information. To report a
+%   bug or issue, please create an "Issue" post on the GitHub page at 
+%   https://github.com/sccn/ICLabel/issues or send an email to 
+%   eeglab@sccn.ucsd.edu.
 %
 %   Results are stored in EEG.etc.ic_classifications.ICLabel. The matrix of
 %   label vectors is stored under "classifications" and the cell array of

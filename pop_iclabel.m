@@ -5,7 +5,9 @@ function [EEG, varargout] = pop_iclabel(EEG, version)
 %   to labeling.ucsd.edu/tutorial/about for more information. This is a
 %   beta version and results may change in the near future. For direct
 %   usage of ICLabel in scripts and functions, the function "iclabel" is
-%   suggested.
+%   suggested. To report a bug or issue, please create an "Issue" post on 
+%   the GitHub page at https://github.com/sccn/ICLabel/issues or send an 
+%   email to eeglab@sccn.ucsd.edu.
 %
 %   Results are stored in EEG.etc.ic_classifications.ICLabel. The matrix of
 %   label vectors is stored under "classifications" and the cell array of

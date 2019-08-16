@@ -2,7 +2,10 @@ function EEG = iclabel(EEG, version)
 %ICLABEL Function for EEG IC labeling
 %   Label independent components using ICLabel.  Go to 
 %   https://sccn.ucsd.edu/wiki/ICLabel for a tutorial on this plug-in. Go 
-%   to labeling.ucsd.edu/tutorial/about for more information.
+%   to labeling.ucsd.edu/tutorial/about for more information. To report a
+%   bug or issue, please create an "Issue" post on the GitHub page at 
+%   https://github.com/sccn/ICLabel/issues or send an email to 
+%   eeglab@sccn.ucsd.edu.
 % 
 %   Inputs:
 %       EEG: EEGLAB EEG structure. Must have an attached ICA decomposition
