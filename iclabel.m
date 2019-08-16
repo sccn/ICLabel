@@ -8,7 +8,7 @@ function EEG = iclabel(EEG, version)
 %   eeglab@sccn.ucsd.edu.
 % 
 %   Inputs:
-%       EEG: EEGLAB EEG structure. Must have an attached ICA decomposition
+%       EEG: EEGLAB EEG structure. Must have an attached ICA decomposition.
 %       version (optional): Version of ICLabel to use. Default
 %       (recommended) version is used if passed 'default', '', or left
 %       empty. Pass 'lite' to use ICLabelLite or 'beta' to use the original
