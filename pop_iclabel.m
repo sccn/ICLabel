@@ -68,9 +68,12 @@ if ~exist('version', 'var')
 
 end
 
-for iEEG = 1:length(EEG)
-    % run iclabel
-    EEG(iEEG) = iclabel(EEG(iEEG), version);
+if length(EEG) > 1
+    [ EEG, com ] = eeg_eval( 'iclabel', EEG, 'params', { version } );
+    varargout = {com};
+else
+    EEG = iclabel(EEG(iEEG), version);
+    varargout = {['EEG = pop_iclabel(EEG, ' version ');']};
 end
 
 % % visualize with viewprops
@@ -85,12 +88,6 @@ end
 %     end
 % end
 %     
-
-% return for EEG.history
-if nargout == 2
-    varargout = {['EEG = pop_iclabel(EEG, ' version ');']};
-end
-
 
 % inputdlg3() - A comprehensive gui automatic builder. This function takes
 %               text, type of GUI and default value and builds

@@ -39,6 +39,10 @@ catch
 end
 
 if nargin < 2
+    if length(EEG) == 1
+        eeg_icalabelstat(EEG);
+    end
+    
     cat     = { 'Brain'  'Muscle'  'Eye'  'Heart'  'Line Noise'  'Channel Noise'  'Other' };
     defaultMin = { ''       '0.9'     '0.9'  ''       ''            ''               '' };
     defaultMax = { ''       '1'       '1'    ''       ''            ''               '' };
@@ -58,6 +62,7 @@ if nargin < 2
     
     res = inputgui(allGeom, allRows);
     if isempty(res)
+        com = '';
         return
     end
     
@@ -65,23 +70,17 @@ if nargin < 2
     thresh = reshape(thresh, 2, 7)';
 end
 
-com = sprintf('EEG = pop_icflag(EEG, %s);',vararg2str(thresh));
-
 if length(EEG) > 1
-    for iEEG = 1:length(EEG)
-        % run iclabel
-        EEG(iEEG) = pop_icflag(EEG(iEEG), thresh);
+    [ EEG, com ] = eeg_eval( 'pop_icflag', EEG, 'params', { thresh } );
+else
+    % perform rejection
+    flagReject = zeros(1,size(EEG.icaweights,1))';
+    for iCat = 1:7
+        tmpReject  = EEG.etc.ic_classification.ICLabel.classifications(:,iCat) > thresh(iCat,1) & EEG.etc.ic_classification.ICLabel.classifications(:,iCat) < thresh(iCat,2);
+        flagReject = flagReject | tmpReject;
     end
-    return
+    EEG.reject.gcompreject = flagReject;
+    fprintf('%d components rejected\n', sum(flagReject));
+    com = sprintf('EEG = pop_icflag(EEG, %s);',vararg2str(thresh));
 end
-
-% perform rejection
-flagReject = zeros(1,size(EEG.icaweights,1))';
-for iCat = 1:7
-    tmpReject  = EEG.etc.ic_classification.ICLabel.classifications(:,iCat) > thresh(iCat,1) & EEG.etc.ic_classification.ICLabel.classifications(:,iCat) < thresh(iCat,2);
-    flagReject = flagReject | tmpReject;
-end
-EEG.reject.gcompreject = flagReject;
-fprintf('%d components rejected\n', sum(flagReject));
-
 
