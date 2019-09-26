@@ -10,6 +10,8 @@ If you plan to install the plugin through GitHub rather than the EEGLAB plugin m
 git clone --recursive https://github.com/lucapton/ICLabel.git
 
 ## Version history
+1.2.4 - Forgot to include some dependencies in 1.2.3, adding them back
+
 1.2.3 - Fix bug for single dataset
 
 1.2.2 - Fix STUDY calling format and add new function eeg_icalabelstat
