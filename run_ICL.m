@@ -53,7 +53,7 @@ catch
     curr_path = pwd;
     cd(fileparts(which('vl_compilenn')));
     try
-        vl_compile_nn
+        vl_compilenn
         cd(curr_path)
         disp(['MEX-files successfully compiled. Attempting to run ICLabel again. ' ...
             'Please consider emailing Luca Pion-Tonachini at lpionton@ucsd.edu to ' ...
