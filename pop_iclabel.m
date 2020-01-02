@@ -73,7 +73,7 @@ if length(EEG) > 1
     varargout = {com};
 else
     EEG = iclabel(EEG, version);
-    varargout = {['EEG = pop_iclabel(EEG, ' version ');']};
+    varargout = {['EEG = pop_iclabel(EEG, ''' version ''');']};
 end
 
 % % visualize with viewprops
