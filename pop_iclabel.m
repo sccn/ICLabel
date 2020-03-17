@@ -54,10 +54,13 @@ if ~exist('version', 'var')
 %             'title', 'ICLabel');
         version = version{2};
     catch
-        version = 1; % TODO: figure out how to gracefully exit in this case
+        version = 0;
     end
     
     switch version
+        case 0
+            varargout = { [] };
+            return
         case 1
             version = 'default';
         case 2
