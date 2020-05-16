@@ -43,6 +43,12 @@ if flag_autocorr
     input = [input {'in_autocorr', single(autocorrs)}];
 end
 
+% check path (sometimes mex file not first which create a problem)
+path2vl_nnconv = which('-all', 'vl_nnconv');
+if isempty(findstr('mex', path2vl_nnconv{1})) && length(path2vl_nnconv) > 1
+    addpath(fileparts(path2vl_nnconv{2}));
+end
+
 %% inference
 try
     % run with mex-files

@@ -66,7 +66,9 @@ if nargin < 2
         return
     end
     
-    thresh = cellfun(@str2double, res);
+    thresh = cellfun(@str2double, res, 'uniformoutput', false);
+    thresh(cellfun(@isempty, thresh)) = { NaN };
+    thresh = [ thresh{:} ];
     thresh = reshape(thresh, 2, 7)';
 end
 
