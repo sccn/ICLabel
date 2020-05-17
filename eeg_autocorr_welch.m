@@ -49,7 +49,7 @@ if ~exist('OCTAVE_VERSION', 'builtin') && exist('resample')
 else
     ac = myresample(double(ac'), 100, EEG.srate)';
 end
-ac = ac(:, 1:100);
+ac = ac(:, 2:101);
 
 % resample if resample is not present
 % -----------------------------------
