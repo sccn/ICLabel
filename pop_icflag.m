@@ -34,7 +34,7 @@ try
     classification = EEG(1).etc.ic_classification.ICLabel.classifications;
     if isempty(classification), err; end
 catch
-    disp('No labelling found, abording...')
+    disp('No labeling found, use Tools > Classify components using ICLabel > Label components first')
     return;
 end
 
@@ -49,7 +49,7 @@ if nargin < 2
     
     geom = [2 0.4 0.4];
     row  = { { 'style' 'text' 'string' 'Probability range for ' } { 'style' 'edit' 'string' '' } { 'style' 'edit' 'string' '' } };
-    allRows = { { 'style' 'text' 'string' 'Select range for flaging component for rejection' 'fontweight' 'bold' } {} {  'style' 'text' 'string' 'Min' } {  'style' 'text' 'string' 'Max' } };
+    allRows = { { 'style' 'text' 'string' 'Select range for flagging component for rejection' 'fontweight' 'bold' } {} {  'style' 'text' 'string' 'Min' } {  'style' 'text' 'string' 'Max' } };
     allGeom = { 1 geom };
     for iCat = 1:length(cat)
         tmpRow = row;
@@ -82,7 +82,7 @@ else
         flagReject = flagReject | tmpReject;
     end
     EEG.reject.gcompreject = flagReject;
-    fprintf('%d components rejected\n', sum(flagReject));
+    fprintf('%d components flagged for rejection, to reject them use Tools > Remove components from data\n', sum(flagReject));
     com = sprintf('EEG = pop_icflag(EEG, %s);',vararg2str(thresh));
 end
 
