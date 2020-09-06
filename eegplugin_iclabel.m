@@ -28,7 +28,7 @@ end
 % add items to EEGLAB tools menu
 plotmenu = findobj(fig, 'tag', 'tools');
 
-iclabelmenu = uimenu( plotmenu, 'label', 'Classify components using ICLabel','userdata', 'startup:off;study:on');
+iclabelmenu = uimenu( plotmenu, 'label', 'Classify components using ICLabel','userdata', 'startup:off;study:on;roi:off');
 lightMenuFlag = isempty(findobj(fig, 'Label', 'Reject data epochs'));
 if lightMenuFlag, set(iclabelmenu, 'position', 9); else set(iclabelmenu, 'position', 12); end 
 
