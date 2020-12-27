@@ -1,4 +1,4 @@
-function [EEG, varargout] = pop_iclabel(EEG, version)
+function [EEG, varargout] = pop_iclabel(EEG, icversion)
 %POP_ICLABEL Function for EEG IC labeling
 %   Label independent components using ICLabel. Go to
 %   https://sccn.ucsd.edu/wiki/ICLabel for a tutorial on this plug-in. Go
@@ -30,10 +30,10 @@ function [EEG, varargout] = pop_iclabel(EEG, version)
 %       EEG.etc.ic_classifications.ICLabel.classifications(7, 3)
 %   since EEG.etc.ic_classifications.ICLabel.classes{3} is "eye"
 
-if ~exist('version', 'var')
+if ~exist('icversion', 'var')
     try
-        [~, version] = evalc(['inputdlg3(' ...
-            '''prompt'', {''Select which version of ICLabel to use:'', ''Default (recommended)|Lite|Beta''},' ... 
+        [~, icversion] = evalc(['inputdlg3(' ...
+            '''prompt'', {''Select which icversion of ICLabel to use:'', ''Default (recommended)|Lite|Beta''},' ... 
             '''style'', {''text'', ''popupmenu''},' ...
             '''default'', {[], 1},' ...
             '''tag'', {'''', [''"Default" and "Lite" are validated in the ''' ...
@@ -43,8 +43,8 @@ if ~exist('version', 'var')
             '''title'', ''ICLabel'');']);
 % The above code is equivalent to the block below except it successfully
 % supresses an uneccessary warning from supergui.
-%         version = inputdlg3( ...
-%             'prompt', {'Select which version of ICLabel to use:', 'Default (recommended)|Lite|Beta'}, ... 
+%         icversion = inputdlg3( ...
+%             'prompt', {'Select which icversion of ICLabel to use:', 'Default (recommended)|Lite|Beta'}, ... 
 %             'style', {'text', 'popupmenu'}, ...
 %             'default', {[], 1}, ...
 %             'tag', {'', ['"Default" and "Lite" are validated in the ' ...
@@ -52,31 +52,63 @@ if ~exist('version', 'var')
 %                          'only to maintain the repoducibility of any studies ' ...
 %                          'which may have used it']}, ...
 %             'title', 'ICLabel');
-        version = version{2};
+        icversion = icversion{2};
     catch
-        version = 0;
+        icversion = 0;
     end
     
-    switch version
+    switch icversion
         case 0
             varargout = { [] };
             return
         case 1
-            version = 'default';
+            icversion = 'default';
         case 2
-            version = 'lite';
+            icversion = 'lite';
         case 3
-            version = 'beta';
+            icversion = 'beta';
     end
 
 end
 
 if length(EEG) > 1
-    EEG = eeg_eval( 'iclabel', EEG, 'params', { version } );
+    [EEG,com] = eeg_eval( 'iclabel', EEG, 'params', { icversion } );   
+
+    disp('*************************************************');
+    disp('Scan datasets which have common ICA decomposition');
+    disp('and average component classification probabilities');
+    disp('*************************************************');
+    if ~isempty(com)
+        sameICA = std_findsameica(EEG);
+        if any(cellfun(@length, sameICA) > 1)
+            for iSame = 1:length(sameICA)
+                if ~isempty(sameICA{iSame})
+                    % average matrix
+                    icMatrix = zeros(size(EEG(sameICA{iSame}(1)).etc.ic_classification.ICLabel.classifications), 'single');
+                    for iDat = 1:length(sameICA{iSame})
+                        icMatrix = icMatrix + EEG(sameICA{iSame}(iDat)).etc.ic_classification.ICLabel.classifications/length(sameICA{iSame});
+                    end
+                    % copy average matrix to datasets
+                    for iDat = 1:length(sameICA{iSame})
+                        EEG(sameICA{iSame}(iDat)).etc.ic_classification.ICLabel.classifications = icMatrix;
+                    end
+                end
+            end
+            
+            % resave datasets if needed
+            for iDat = 1:length(EEG)
+                EEG(iDat).saved = 'no';
+            end
+            eeglab_options;
+            if option_storedisk
+                EEG = pop_saveset(EEG, 'savemode', 'resave');
+            end
+        end
+    end
 else
-    EEG = iclabel(EEG, version);
+    EEG = iclabel(EEG, icversion);
 end
-varargout = {['EEG = pop_iclabel(EEG, ''' version ''');']};
+varargout = {['EEG = pop_iclabel(EEG, ''' icversion ''');']};
 
 % % visualize with viewprops
 % try
@@ -136,8 +168,8 @@ varargout = {['EEG = pop_iclabel(EEG, ''' version ''');']};
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
-% the Free Software Foundation; either version 2 of the License, or
-% (at your option) any later version.
+% the Free Software Foundation; either icversion 2 of the License, or
+% (at your option) any later icversion.
 %
 % This program is distributed in the hope that it will be useful,
 % but WITHOUT ANY WARRANTY; without even the implied warranty of

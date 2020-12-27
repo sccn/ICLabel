@@ -10,6 +10,8 @@ If you plan to install the plugin through GitHub rather than the EEGLAB plugin m
 git clone --recursive https://github.com/lucapton/ICLabel.git
 
 ## Version history
+1.3 - make sure the classification probabilities are identical when processing multiple datasets with the same ICA decompositions
+
 1.2.6 - fix issue in pop_iclabel.m for Matlab prior to 2016, fix rare path issue and issue with autocorrelation length
 
 1.2.5 - fix issue when pressing cancel in pop_iclabel.m
