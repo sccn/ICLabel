@@ -76,12 +76,9 @@ if length(EEG) > 1
     [ EEG, com ] = eeg_eval( 'pop_icflag', EEG, 'params', { thresh } );
 else
     % perform rejection
-    flagReject = zeros(1,size(EEG.icaweights,1))';
-    for iCat = 1:7
-        tmpReject  = EEG.etc.ic_classification.ICLabel.classifications(:,iCat) > thresh(iCat,1) & EEG.etc.ic_classification.ICLabel.classifications(:,iCat) < thresh(iCat,2);
-        flagReject = flagReject | tmpReject;
-    end
-    EEG.reject.gcompreject = flagReject;
+    EEG.reject.gcompreject = any(...
+        EEG.etc.ic_classification.ICLabel.classifications' > thresh(:, 1) & ...
+        EEG.etc.ic_classification.ICLabel.classifications' < thresh(:, 2));
     fprintf('%d components flagged for rejection, to reject them use Tools > Remove components from data\n', sum(flagReject));
     com = sprintf('EEG = pop_icflag(EEG, %s);',vararg2str(thresh));
 end
