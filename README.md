@@ -25,6 +25,7 @@ git clone --recursive https://github.com/lucapton/ICLabel.git
 
 ## Usage
 ### Graphical Usage
+![menu](ICLabel_menu.png)
 Once you finish installing ICLabel, of if you already have it installed, you need to load your EEG dataset. To run ICLabel, your dataset must already have been decomposed using independent component analysis.
 
 With your dataset loaded, start ICLabel using the EEGLAB window by clicking on "Tools"->"ICLabel". You will see progress notes displayed on MATLAB's command window as ICLabel's pipeline progresses. When ICLabel finishes, it will display "Done" on MATLAB's command window and the Viewprops plug-in will open if available. If you do not have "Viewprops" installed, then nothing else will appear on the screen.
@@ -53,4 +54,5 @@ EEG.etc.ic_classification.ICLabel.classes{3}
 ```
 You will find the category is "eye."
 ## Viewprops plug-in
+![](Viewprops_eye.png)
 The ICLabel plugin offers no built-in plotting or visualization; therefore, it is highly suggested that you also install the [Viewprops plug-in](https://sccn.ucsd.edu/wiki/Viewprops). It will produce figures like the one shown at the top of this article. See the [Installation](https://sccn.ucsd.edu/wiki/ICLabel#Installation) section for directions on how to acquire the [Viewprops plug-in](https://sccn.ucsd.edu/wiki/Viewprops) and see [its wiki page](https://sccn.ucsd.edu/wiki/Viewprops) for information on how to use it.
