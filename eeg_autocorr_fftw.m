@@ -1,5 +1,9 @@
 function resamp = eeg_autocorr_fftw(EEG, pct_data)
 
+if exist('resample') ~= 2
+     error('Signal Processing Toolbox absent: You need the signal processing toolbox to run ICLabel');  
+end
+
 if ~exist('pct_data', 'var') || isempty(pct_data)
     pct_data = 100;
 end
