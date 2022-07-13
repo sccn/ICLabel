@@ -12,7 +12,7 @@ ncomp = size(EEG.icawinv, 2);
 assert(isfield(EEG, 'icawinv'), 'You must have an ICA decomposition to use ICLabel')
 
 % assuming chanlocs are correct
-if ~strcmp(EEG.ref, 'averef')
+if ~isequal(EEG.ref, 'average') && ~isequal(EEG.ref, 'averef')
     [~, EEG] = evalc('pop_reref(EEG, [], ''exclude'', setdiff(1:EEG.nbchan, EEG.icachansind));');
 end
 
@@ -29,11 +29,11 @@ assert(isreal(EEG.icaact), 'Your ICA decomposition must be real to use ICLabel')
 topo = zeros(32, 32, 1, ncomp);
 for it = 1:ncomp
     if ~exist('OCTAVE_VERSION', 'builtin') 
-        [~, temp_topo, plotrad] = ...
+        [~, temp_topo] = ...
             topoplotFast(EEG.icawinv(:, it), EEG.chanlocs(EEG.icachansind), ...
             'noplot', 'on');
     else
-        [~, temp_topo, plotrad] = ...
+        [~, temp_topo] = ...
             topoplot(EEG.icawinv(:, it), EEG.chanlocs(EEG.icachansind), ...
             'noplot', 'on', 'gridscale', 32);
     end
