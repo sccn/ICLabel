@@ -14,7 +14,12 @@ end
 % setup constants
 ncomp = size(EEG.icaweights, 1);
 n_points = min(EEG.pnts, EEG.srate);
-window = windows('hamming', n_points, 0.54)';
+try
+    window = windows('hamming', n_points, 0.54)';
+catch
+    lasterr
+    error('The windows function is in the firfilt plugin, make sure it is in the path')
+end
 cutoff = floor(EEG.pnts / n_points) * n_points;
 index = bsxfun(@plus, ceil(0:n_points / 2:cutoff - n_points), (1:n_points)');
 if ~exist('OCTAVE_VERSION', 'builtin')
