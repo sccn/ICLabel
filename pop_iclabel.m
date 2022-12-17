@@ -74,10 +74,10 @@ end
 if length(EEG) > 1
     [EEG,com] = eeg_eval( 'iclabel', EEG, 'params', { icversion } );   
 
-    disp('*************************************************');
-    disp('Scan datasets which have common ICA decomposition');
-    disp('and average component classification probabilities');
-    disp('*************************************************');
+    disp('*****************************************************');
+    disp('Scanning datasets which have common ICA decomposition');
+    disp('and averaging component classification probabilities');
+    disp('*****************************************************');
     if ~isempty(com)
         sameICA = std_findsameica(EEG);
         if any(cellfun(@length, sameICA) > 1)
