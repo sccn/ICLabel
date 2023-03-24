@@ -13,7 +13,7 @@ end
 
 % setup constants
 ncomp = size(EEG.icaweights, 1);
-n_points = min(EEG.pnts, EEG.srate);
+n_points = floor(min(EEG.pnts, EEG.srate));
 try
     window = windows('hamming', n_points, 0.54)';
 catch
