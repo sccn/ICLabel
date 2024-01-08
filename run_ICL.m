@@ -45,8 +45,10 @@ end
 
 % check path (sometimes mex file not first which create a problem)
 path2vl_nnconv = which('-all', 'vl_nnconv');
-if isempty(findstr('mex', path2vl_nnconv{1})) && length(path2vl_nnconv) > 1
-    addpath(fileparts(path2vl_nnconv{2}));
+if ~ischar(path2vl_nnconv)
+    if ~isempty(path2vl_nnconv) && isempty(findstr('mex', path2vl_nnconv{1})) && length(path2vl_nnconv) > 1
+        addpath(fileparts(path2vl_nnconv{2}));
+    end
 end
 
 %% inference
