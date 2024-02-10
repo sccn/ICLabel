@@ -47,6 +47,10 @@ end
 assert(isfield(EEG, 'icawinv') && ~isempty(EEG.icawinv), ...
     'You must have an ICA decomposition to use ICLabel')
 
+if EEG.srate < 100
+    error('ICLabel requires a sampling frequency of at least 100 Hz')
+end
+
 % extract features
 disp 'ICLabel: extracting features...'
 features = ICL_feature_extractor(EEG, flag_autocorr);
