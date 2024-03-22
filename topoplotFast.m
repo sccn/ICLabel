@@ -956,9 +956,9 @@ if ~strcmpi(STYLE,'blank') % if draw interpolated scalp map
   %
   xi = linspace(xmin,xmax,GRID_SCALE);   % x-axis description (row vector)
   yi = linspace(ymin,ymax,GRID_SCALE);   % y-axis description (row vector)
-  [xi,yi] = meshgrid(xi,yi);
+  [yi,xi] = meshgrid(yi,xi);
   [Xi,Yi,Zi] = griddata(double(inty),double(intx),double(intValues),double(yi),double(xi),'v4'); % interpolate data
-%   [Xi,Yi,ZiC] = griddata(double(inty),double(intx),double(intContourVals),double(yi)',double(xi),'v4'); % interpolate data
+  %[Xi,Yi,Zi] = griddata(double(inty),double(intx),double(intContourVals),double(yi)',double(xi),'v4'); % interpolate data
   
   %
   %%%%%%%%%%%%%%%%%%%%%%% Mask out data outside the head %%%%%%%%%%%%%%%%%%%%%
