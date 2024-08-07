@@ -10,7 +10,7 @@ nfft = 2^nextpow2(2*EEG.pnts-1);
 % calc autocorrelation
 c = zeros(ncomp, nfft);
 for it = 1:ncomp
-    X = mean(abs(fft(EEG.icaact(it, :), nfft, 2)).^2, 3);
+    X = mean(abs(fft(EEG.icaact(it, :), nfft, 2)).^2, 3); % Code not used here, since there is never a 3rd dim the mean has no effect
     c(it, :) = ifft(X, [], 2);
 end
 % X = fft(EEG.icaact, 2^nextpow2(2*EEG.pnts-1), 2);
