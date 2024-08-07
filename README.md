@@ -9,28 +9,6 @@ If you plan to install the plugin through GitHub rather than the EEGLAB plugin m
 
 git clone --recursive https://github.com/lucapton/ICLabel.git
 
-## Version history
-Pending - new message if signal processing toolbox is absent (we judged a new release was not necessary for such a small change)
-
-1.6 - fix issue with electrode orientation introduced in version 1.5 one month prior
-
-1.5 - minor tweaks and better stability (see commit history)
-
-1.4 - adding 'average' to the list of possible reference for EEGLAB compatibility
-
-1.3 - make sure the classification probabilities are identical when processing multiple datasets with the same ICA decompositions
-
-1.2.6 - fix issue in pop_iclabel.m for Matlab prior to 2016, fix rare path issue and issue with autocorrelation length
-
-1.2.5 - fix issue when pressing cancel in pop_iclabel.m
-
-1.2.4 - Forgot to include some dependencies in 1.2.3, adding them back and fix issue to view properties
-
-1.2.3 - Fix bug for single dataset
-
-1.2.2 - Fix STUDY calling format and add new function eeg_icalabelstat
-
-
 ## Usage
 ### Graphical Usage
 ![menu](ICLabel_menu.png)
@@ -92,3 +70,24 @@ data = read_eeglabdata( EEG, 'header', hdr );
 event = read_eeglabevent( EEG, 'header', hdr );
 cd(curPath);
 ```
+
+## Version history
+Pending - new message if signal processing toolbox is absent (we judged a new release was not necessary for such a small change)
+
+1.6 - fix issue with electrode orientation introduced in version 1.5 one month prior
+
+1.5 - minor tweaks and better stability (see commit history)
+
+1.4 - adding 'average' to the list of possible reference for EEGLAB compatibility
+
+1.3 - make sure the classification probabilities are identical when processing multiple datasets with the same ICA decompositions
+
+1.2.6 - fix issue in pop_iclabel.m for Matlab prior to 2016, fix rare path issue and issue with autocorrelation length
+
+1.2.5 - fix issue when pressing cancel in pop_iclabel.m
+
+1.2.4 - Forgot to include some dependencies in 1.2.3, adding them back and fix issue to view properties
+
+1.2.3 - Fix bug for single dataset
+
+1.2.2 - Fix STUDY calling format and add new function eeg_icalabelstat
