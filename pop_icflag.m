@@ -24,6 +24,7 @@
 
 function [EEG,com] = pop_icflag(EEG, thresh)
 
+com = '';
 if nargin < 1
     help pop_icflag
     return
