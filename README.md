@@ -74,6 +74,8 @@ cd(curPath);
 ## Version history
 Pending - new message if signal processing toolbox is absent (we judged a new release was not necessary for such a small change)
 
+1.7 - minor fixes including updating documentation
+
 1.6 - fix issue with electrode orientation introduced in version 1.5 one month prior
 
 1.5 - minor tweaks and better stability (see commit history)
