@@ -82,6 +82,11 @@ if flag_autocorr
         autocorr = eeg_autocorr_fftw(EEG);
     end
 
+    % Octave can retain imaginary FFT roundoff for real autocorrelation.
+    if exist('OCTAVE_VERSION', 'builtin')
+        autocorr = real(autocorr);
+    end
+
     % reshape and cast
     autocorr = single(permute(autocorr, [3 2 4 1]));
 end
